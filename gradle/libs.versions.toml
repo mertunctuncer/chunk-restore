@@ -1,0 +1,60 @@
+[versions]
+# kotlin
+kotlin = "1.9.22"
+kotlinx-coroutines = "1.7.3"
+kotlinx-serialization = "1.6.2"
+
+# plugins
+ktlint = "4.2.0"
+maven-publish = "0.27.0"
+koin = "3.5.3"
+
+# minecraft
+spigot-api = "1.20.4-R0.1-SNAPSHOT"
+folia-api = "1.20.2-R0.1-SNAPSHOT"
+lands = "6.44.7"
+worldguard = "7.0.9"
+minimessage = "4.15.0"
+
+# db
+mongodb = "4.11.1"
+mongodb-kotlin = "4.11.0"
+
+
+[libraries]
+# kotlin
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+
+# DI
+koin = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+
+# DB
+driver-mongodb = {module = "org.mongodb:mongodb-driver-sync", version.ref = "mongodb" }
+driver-mongodb-kotlinx = { module = "org.mongodb:mongodb-driver-kotlin-coroutine", version.ref = "mongodb-kotlin" }
+driver-mongodb-kotlin = { module = "org.mongodb:mongodb-driver-kotlin-sync", version.ref = "mongodb-kotlin" }
+mongodb-bsonx = { module = "org.mongodb:bson-kotlinx", version.ref = "mongodb-kotlin" }
+mongodb-bson = {module = "org.mongodb:bson-kotlin", version.ref = "mongodb"}
+
+# minecraft
+spigot-api = { module = "org.spigotmc:spigot-api", version.ref = "spigot-api" }
+folia-api = { module = "dev.folia:folia-api", version.ref = "folia-api" }
+lands = { module = "com.github.angeschossen:LandsAPI", version.ref = "lands" }
+worldguard = { module = "com.sk89q.worldguard:worldguard-bukkit", version.ref = "worldguard"}
+minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "minimessage" }
+
+# plugins
+gradle-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinx-serialization" }
+ktlint = { id = "org.jmailen.kotlinter", version.ref = "ktlint" }
+maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }
+shadow = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }
+
+paperweight-userdev = { id = "io.papermc.paperweight.userdev", version = "1.5.11"}
+
+buildlogic = { id = "dev.peopo.buildlogic", version = "0.1"}

@@ -1,0 +1,11 @@
+name: ChunkRestore
+version: 1.0.0
+main: dev.peopo.chunkrestore.ChunkRestorePlugin
+description: Resource regeneration plugin
+author: github.com/mertunctuncer
+load: POSTWORLD
+api-version: '1.20'
+folia-supported: true
+soft-depend:
+  - WorldGuard
+  - Lands

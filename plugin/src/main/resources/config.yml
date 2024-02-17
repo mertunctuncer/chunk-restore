@@ -1,0 +1,115 @@
+# Commands, All commands require OP to use
+# cr reload - reloads the plugin with the exception of database connection (This is not allowed due to race conditions that might occur
+# cr enable - Enables chunk restoration
+# cr disable - Disables chunk restoration
+# cr inspect - Inspects the current chunk, restores if it should be restored.
+# cr restore - Restores the chunk ignoring the inspection. (Ignores world guard, lands claims, cooldown etc)
+
+# RESTORATION DISABLE
+# Setting this to false will keep the record logging function
+# Chunks will not be restored.
+enabled: true
+
+# DEBUG LEVELS
+# - all : Output all logs
+# - debug : output debug logs
+# - error_only : only output errors
+# Settings other than error_only is used for debugging internal errors
+console-debug-level: "error_only"
+
+# Database information, this won't /reload everything else does.
+mongodb:
+  host: "localhost"
+  port: 27017
+  username: "username"
+  password: "password"
+  database: "database"
+
+# Messages, uses minimessage
+messages:
+  no-permission: "You do not have permission to perform this action"
+  usage: "Usage: /cr [ reload | enable | disable | inspect | restore ]"
+  reload-successful: "Reload successful."
+  enabled: "Chunk restoration enabled."
+  disabled: "Chunk restoration disabled."
+  inspect: "Inspecting the chunk, restoration will be queued if necessary."
+  restore: "Queueing restoration for the chunk."
+
+
+settings:
+  # How long in minutes a chunk is cached after it is unloaded by folia
+  # Cache unloads the records from memory, then stores them in the database
+  # Setting this higher will slow down the information transfer rate to the database
+  cache-timeout: 10
+  # How many blocks need to be changed in a chunk to trigger a restore
+  # This only makes the chunk qualified to be restored and does not guarantee that it will be restored instantly.
+  restore-threshold: 500
+  # How many minutes before a chunk can be restored again
+  restore-cooldown: 120
+  # How many chunks can be restored at once
+  # Set this to 0 to instantly restore all chunks when they get queued. Not recommended unless there is an issue with
+  # the dynamic restoration.
+  restore-limit: 3
+  # Dynamic restore time limit in milliseconds, a tick is 50 milliseconds.
+  # If a restoration pass duration exceeds this value, plugin will attempt to slow down the regeneration process.
+  # If a restoration pass duration is less than this value, plugin will attempt to speed up the regeneration process
+  # up to the restore-limit.
+  # Slowest being 1 chunk per tick
+  restore-time-limit: 15
+  # World guard blacklist
+  world-guard-blacklist:
+    - "region1"
+    - "region2"
+  # These materials will not be regenerated.
+  # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+  material-blacklist:
+    - "CHEST"
+    - "SPAWNER"
+  # Ore generator settings
+  ore-generator:
+    # If ores should be scrambled, this part of the regeneration is the heaviest
+    # This can be used to regenerate without scrambling
+    # Calculations on where blocks should be placed are done multithreaded
+    enabled: true
+    # dynamic: Sets the block where the ore used to be according to nearby blocks.
+    # (if it is surrounded by stone, it will be set to stone)
+    # static: Sets the block to the default material, more performant but creates artifacts.
+    remove-strategy: "dynamic"
+    # Default material to use in static and in the case dynamic fails to determine a block
+    default-material: "STONE"
+    # Blocks in this list will not be replaced by ores.
+    # The plugin is unaware of structures and will attempt to replace them.
+    # This list can be used to protect structure blocks from being replaced by ores.
+    # More should be added here, I am not sure which blocks are used in each of the structure types.
+    # On a brighter side, it makes the plugin quite future-proof if a new structure type is added
+    disallowed-materials:
+      - "AIR"
+      - "GRASS_BLOCK"
+      - "WATER"
+      - "LAVA"
+      - "BEDROCK"
+      - "SPAWNER"
+      - "CHEST"
+
+    # How many tries should the plugin try to find a suitable coordinate
+    # In the case of coordinate randomizer landing on a disallowed material.
+    max-tries: 15
+    # Ore list to clean and replace
+    ores:
+      # Custom ore spawn, listed material will be removed and replaced.
+      normal-diamond:
+        material: "DIAMOND_ORE"
+        spawn-chance: 10
+        min-count: 1
+        max-count: 3
+        min-height: 3
+        max-height: 20
+      # This name is redundant, can add as many as you need
+      super-rare-big-diamond:
+        spawn-chance: 1
+        material: "DIAMOND_ORE"
+        min-count: 5
+        max-count: 20
+        # Lowest and highest height the ore can be placed
+        min-height: 5
+        max-height: 20
